@@ -1,10 +1,5 @@
-# Data manipulation
-import numpy as np
-# Data visualization
-import matplotlib.pyplot as plt
-import seaborn as sb
-
 # Machine Learning Algorithms
+import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, GradientBoostingRegressor
@@ -12,7 +7,8 @@ from Data_operations.Prepare_data import DataOperations
 # Model Selection and Evaluation
 from sklearn.model_selection import train_test_split, KFold, cross_validate
 from sklearn.model_selection import GridSearchCV
-
+import matplotlib.pyplot as plt
+import seaborn as sb
 # Performance
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
@@ -26,26 +22,12 @@ def display_scores(scores):
 fifa_data = DataOperations()
 fifa_dataset = fifa_data.import_data()
 
-plt.figure(figsize=(10, 6))
-sb.countplot(fifa_dataset["Price"], palette="muted")
-plt.title('Rozklad wartosci pilkarzy')
-plt.show()
-
-plt.figure( figsize=(12, 6))
-plt.title('Korelacja cech')
-sb.heatmap(fifa_dataset.corr(), annot=True)
-plt.show()
-
-fifa_dataset.hist(bins=50, figsize=(20,15))
-plt.title('Histogram cech')
-plt.show()
 
 X = fifa_dataset.drop('Price', axis = 1)
 y = fifa_dataset['Price']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
 
 
-print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
 # regresja liniowa
 print("\n regresja liniowa test/train set")
 lin_reg = LinearRegression(normalize=True, n_jobs=-1)
