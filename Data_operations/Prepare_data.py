@@ -25,9 +25,17 @@ class DataOperations:
         seen = set()
         uniq = [x for x in fifa_raw_dataset['Position'] if x not in seen and not seen.add(x)]
         fifa_raw_dataset['Position'] = fifa_raw_dataset['Position'].apply(self.parsePosition, args=[uniq])
+        uniq = [x for x in fifa_raw_dataset['Country'] if x not in seen and not seen.add(x)]
+        fifa_raw_dataset['Country'] = fifa_raw_dataset['Country'].apply(self.parsePosition, args=[uniq])
+        uniq = [x for x in fifa_raw_dataset['Club'] if x not in seen and not seen.add(x)]
+        fifa_raw_dataset['Club'] = fifa_raw_dataset['Club'].apply(self.parsePosition, args=[uniq])
+        uniq = [x for x in fifa_raw_dataset['WorkRate'] if x not in seen and not seen.add(x)]
+        fifa_raw_dataset['WorkRate'] = fifa_raw_dataset['WorkRate'].apply(self.parsePosition, args=[uniq])
         fifa_raw_dataset['Price'] = fifa_raw_dataset['Price'].apply(self.parseValue)
         # wybrane atrybuty to przewidywania wartości pilakrza
         features = ['Price', 'WeakFoot', 'SkillsMoves', 'Pace', 'Shooting', 'Passing', 'Dribbling', 'Defending',
-                    'Phyiscality', 'Position']
+                    'Phyiscality', 'Position','Country','Club','WorkRate']
         fifa_dataset = fifa_raw_dataset[[*features]]
-        return fifa_dataset
+        selected_fifa_dataset = fifa_dataset[fifa_dataset['Price']>250]
+        print(selected_fifa_dataset.shape)
+        return selected_fifa_dataset

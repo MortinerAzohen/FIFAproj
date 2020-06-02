@@ -1,5 +1,7 @@
 
 import numpy as np
+import seaborn as sb
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, GradientBoostingRegressor
@@ -26,6 +28,7 @@ print('Mean squared error: %.2f'
 # The coefficient of determination: 1 is perfect prediction
 print('Coefficient of determination: %.2f'
       % r2_score(y_test, y_pred))
+
 #drzwko decyzyjne
 print("\n drzewko decyzyjne test/train set")
 tree_reg = DecisionTreeRegressor(random_state=42)
@@ -37,6 +40,7 @@ print('Mean squared error: %.2f'
 # The coefficient of determination: 1 is perfect prediction
 print('Coefficient of determination: %.2f'
       % r2_score(y_test, y_pred))
+
 #random forest
 print("\n random forest test/train set")
 forest_reg = RandomForestRegressor(n_estimators=100, random_state=42)
@@ -48,6 +52,12 @@ print('Mean squared error: %.2f'
 # The coefficient of determination: 1 is perfect prediction
 print('Coefficient of determination: %.2f'
       % r2_score(y_test, y_pred))
+plt.figure(figsize=(10, 6))
+sb.countplot(y_test,color="red")
+sb.countplot(y_pred,color="blue")
+plt.title('Rozklad wartosci pilkarzy')
+plt.show()
+
 #extra trees reg
 print("\n extra trees reg test/train set")
 extra_reg = ExtraTreesRegressor(n_estimators=100, random_state=0)
@@ -71,3 +81,4 @@ print('Mean squared error: %.2f'
 # The coefficient of determination: 1 is perfect prediction
 print('Coefficient of determination: %.2f'
       % r2_score(y_test, y_pred))
+
