@@ -10,7 +10,8 @@ from sklearn.metrics import r2_score
 
 class TrainTestTkkApp:
     def __init__(self,fifa_data = DataOperations()):
-        self.fifa_dataset = fifa_data.import_data()
+        self.fifa_dataset_new = fifa_data.import_data()
+        self.fifa_dataset = self.fifa_dataset_new[1]
         self.X = self.fifa_dataset.drop('Price', axis=1)
         self.y = self.fifa_dataset['Price']
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=0.2, random_state=42)
@@ -18,7 +19,7 @@ class TrainTestTkkApp:
 
     def linearReg(self):
         array = []
-        lin_reg = LinearRegression(normalize=True, n_jobs=-1)
+        lin_reg = LinearRegression(normalize=True)
         lin_reg.fit(self.X_train, self.y_train)
         y_pred = lin_reg.predict(self.X_test)
         array.append(np.sqrt(mean_squared_error(self.y_test, y_pred)))
@@ -48,7 +49,7 @@ class TrainTestTkkApp:
 
     def extraTree(self):
         array = []
-        extra_reg = ExtraTreesRegressor(n_estimators=100, random_state=0)
+        extra_reg = ExtraTreesRegressor(n_estimators=100, random_state=42)
         extra_reg.fit(self.X_train, self.y_train)
         y_pred = extra_reg.predict(self.X_test)
         array.append(np.sqrt(mean_squared_error(self.y_test, y_pred)))
@@ -58,7 +59,7 @@ class TrainTestTkkApp:
 
     def gradientBoost(self):
         array=[]
-        grad_reg = GradientBoostingRegressor(random_state=0)
+        grad_reg = GradientBoostingRegressor(random_state=42)
         grad_reg.fit(self.X_train, self.y_train)
         y_pred = grad_reg.predict(self.X_test)
         array.append(np.sqrt(mean_squared_error(self.y_test, y_pred)))
@@ -66,13 +67,27 @@ class TrainTestTkkApp:
         return array
 
 
-    def  checkNewFifaPlayer(self,x_user):
+    def returnOptions(self):
+        return self.fifa_dataset_new[0]
+
+
+    def  checkNewFifaPlayer(self,x_user,opt):
         New_X = pd.DataFrame(x_user,columns = ['WeakFoot', 'SkillsMoves', 'Pace', 'Shooting', 'Passing', 'Dribbling', 'Defending',
                     'Phyiscality', 'Position','Country','Club','WorkRate'])
-        tree_reg = DecisionTreeRegressor(random_state=42)
-        tree_reg.fit(self.X_train, self.y_train)
-        y_pred = tree_reg.predict(New_X)
-        print(y_pred)
+        if(opt==1):
+            reg = LinearRegression(normalize=True)
+        elif(opt==2):
+            reg = GradientBoostingRegressor(random_state=42)
+        elif (opt == 3):
+            reg = ExtraTreesRegressor(n_estimators=100, random_state=42)
+        elif (opt == 4):
+            reg = RandomForestRegressor(n_estimators=100, random_state=42)
+        elif (opt == 5):
+            reg = DecisionTreeRegressor(random_state=42)
+
+        reg.fit(self.X_train, self.y_train)
+        y_pred = reg.predict(New_X)
+        return y_pred
 
 
 

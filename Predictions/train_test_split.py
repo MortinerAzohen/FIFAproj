@@ -12,7 +12,8 @@ from sklearn.metrics import r2_score
 
 
 fifa_data = DataOperations()
-fifa_dataset = fifa_data.import_data()
+fifa_dataset_all = fifa_data.import_data()
+fifa_dataset = fifa_dataset_all[1]
 
 X = fifa_dataset.drop('Price', axis = 1)
 y = fifa_dataset['Price']
@@ -60,7 +61,7 @@ plt.show()
 
 #extra trees reg
 print("\n extra trees reg test/train set")
-extra_reg = ExtraTreesRegressor(n_estimators=100, random_state=0)
+extra_reg = ExtraTreesRegressor(n_estimators=100, random_state=42)
 extra_reg.fit(X_train, y_train)
 y_pred = extra_reg.predict(X_test)
 
@@ -72,7 +73,7 @@ print('Coefficient of determination: %.2f'
 
 #gradient boost regressor
 print("\n gradient boost regresor test/train set")
-grad_reg = GradientBoostingRegressor(random_state=0)
+grad_reg = GradientBoostingRegressor(random_state=42)
 grad_reg.fit(X_train,y_train)
 y_pred = grad_reg.predict(X_test)
 

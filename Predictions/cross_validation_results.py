@@ -15,7 +15,8 @@ def display_scores(scores):
 
 
 fifa_data = DataOperations()
-fifa_dataset = fifa_data.import_data()
+fifa_dataset_all = fifa_data.import_data()
+fifa_dataset = fifa_dataset_all[1]
 
 
 X = fifa_dataset.drop('Price', axis = 1)

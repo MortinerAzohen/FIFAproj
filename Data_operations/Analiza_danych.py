@@ -7,7 +7,8 @@ import pandas as pd
 from pandas.plotting import scatter_matrix
 
 fifa_data = DataOperations()
-fifa_dataset = fifa_data.import_data()
+fifa_dataset_all = fifa_data.import_data()
+fifa_dataset = fifa_dataset_all[1]
 
 plt.figure(figsize=(10, 6))
 sb.countplot(fifa_dataset["Price"], palette="muted")
